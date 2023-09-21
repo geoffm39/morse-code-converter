@@ -9,8 +9,19 @@ from art import logo
     # TODO: use '/'.join() and ' '.join() to join the lists back into strings
 
 def convert_text(text):
-    split_sentences = text.split(' ')
+    split_text = [[char.lower() for char in word] for word in text.split(' ')]
 
+    for word in split_text:
+        for index, char in enumerate(word):
+            if char in code_library:
+                word[index] = code_library[char]
+            else:
+                word[index] = '#'
+
+    converted_words = [' '.join(word) for word in split_text]
+    converted_text = ' / '.join(converted_words)
+
+    return converted_text
 
 # TODO: create a function for converting morse code to text
     # TODO: invalid codes are converted to a #
@@ -18,9 +29,23 @@ def convert_text(text):
     # TODO: grammar: set first letter of sentance to a capitol letter, and double space after full stop
     # TODO: / must represent a space, no matter how many in a row
         # TODO: check '' and ' ' after split
+def convert_code(code):
+    pass
+
 
 # TODO: create converter function that runs the converter until user is finished
     # TODO: ask what type of conversion to execute
     # TODO: call the correct function based on input and return the printed result
     # TODO: ask user if wants to continue. use recursion to loop back to start if continuing
 
+def converter():
+    pass
+
+
+test = convert_text('This is a tes#@t2.  what haPPens before this?')
+
+print(test)
+
+# string = ' / '.join(test)
+#
+# print(string)
