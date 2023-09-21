@@ -1,14 +1,14 @@
 from codes import code_library
 from art import logo
 
-# TODO: create a function for converting text to morse code
-    # TODO: invalid symbols are converted to a #
-    # TODO: split by word, then by character (nested lists)
-    # TODO: convert multiple spaces into multiple ///
-        # TODO: check for '' in list. converts to an extra space
-    # TODO: use '/'.join() and ' '.join() to join the lists back into strings
+#  create a function for converting text to morse code
+    # invalid symbols are converted to a #
+    # split by word, then by character (nested lists)
+    # convert multiple spaces into multiple ///
+        # check for '' in list. converts to an extra space #### DIDNT NEED TO DO!
+    # use '/'.join() and ' '.join() to join the lists back into strings
 
-def convert_text(text):
+def convert__to_code(text):
     split_text = [[char.lower() for char in word] for word in text.split(' ')]
 
     for word in split_text:
@@ -23,29 +23,71 @@ def convert_text(text):
 
     return converted_text
 
-# TODO: create a function for converting morse code to text
-    # TODO: invalid codes are converted to a #
-    # TODO: divide string into lists of words, then again into lists of characters
-    # TODO: grammar: set first letter of sentance to a capitol letter, and double space after full stop
-    # TODO: / must represent a space, no matter how many in a row
-        # TODO: check '' and ' ' after split
-def convert_code(code):
-    pass
+# create a function for converting morse code to text
+    # invalid codes are converted to a #
+    # divide string into lists of words, then again into lists of characters
+    # grammar: set first letter of sentance to a capitol letter, and double space after full stop
+    # must represent a space, no matter how many in a row
+        #  check '' and ' ' after split
+def convert_to_text(coded_text):
+    split_code = [[char_code for char_code in word.split()] for word in coded_text.split('/')]
+
+    for coded_word in split_code:
+        for index, code in enumerate(coded_word):
+            if code not in code_library.values():
+                coded_word[index] = '#'
+            else:
+                for key, value in code_library.items():
+                    if code == value:
+                        coded_word[index] = key
+
+    converted_code_words = [''.join(coded_word) for coded_word in split_code]
+
+    next_word_capital = True
+    for index, word in enumerate(converted_code_words):
+        if next_word_capital:
+            if word:
+                converted_code_words[index] = word.capitalize()
+                next_word_capital = False
+        if word:
+            if word[-1] == '.':
+                converted_code_words[index] += ' '
+                next_word_capital = True
+
+    converted_code = ' '.join(converted_code_words)
+
+    return converted_code
 
 
-# TODO: create converter function that runs the converter until user is finished
-    # TODO: ask what type of conversion to execute
-    # TODO: call the correct function based on input and return the printed result
-    # TODO: ask user if wants to continue. use recursion to loop back to start if continuing
+#  create converter function that runs the converter until user is finished
+    #  ask what type of conversion to execute
+    #  call the correct function based on input and return the printed result
+    # ask user if wants to continue. use recursion to loop back to start if continuing
+
 
 def converter():
-    pass
+    command = input("Enter 't' to convert to text, or 'c' to convert to code: ").lower()
+    if command == 't':
+        text = convert_to_text(input("Enter the morse code to convert:\n"))
+        print(f"The converted morse code is:\n{text}\n")
+    elif command == 'c':
+        code = convert__to_code(input("Enter the text to convert:\n"))
+        print(f"The converted text is:\n{code}\n")
+    else:
+        print("You entered an invalid command.  Please try again.")
+        converter()
+
+    if input("Would you like to convert something else? y/n ").lower() == 'y':
+        converter()
+    else:
+        print("\nThanks for using the Morse Code Converter. Feedback is welcome!")
 
 
-test = convert_text('This is a tes#@t2.  what haPPens before this?')
+def main():
+    print(logo)
+    print('Welcome to the Morse Code Converter')
+    converter()
 
-print(test)
 
-# string = ' / '.join(test)
-#
-# print(string)
+if __name__ == '__main__':
+    main()
