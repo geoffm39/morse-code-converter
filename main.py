@@ -1,16 +1,17 @@
 from codes import code_library
 from art import logo
 
-#  create a function for converting text to morse code
-    # invalid symbols are converted to a #
-    # split by word, then by character (nested lists)
-    # convert multiple spaces into multiple ///
-        # check for '' in list. converts to an extra space #### DIDNT NEED TO DO!
-    # use '/'.join() and ' '.join() to join the lists back into strings
 
-def convert__to_code(text):
+def convert__to_code(text: str):
+    """
+    Convert text to morse code.
+    :param text: (str): The text to convert to morse code.
+    :return: (str): The converted morse code.
+    """
+    # split characters into nested lists
     split_text = [[char.lower() for char in word] for word in text.split(' ')]
 
+    # convert characters to codes
     for word in split_text:
         for index, char in enumerate(word):
             if char in code_library:
@@ -18,20 +19,23 @@ def convert__to_code(text):
             else:
                 word[index] = '#'
 
+    # join lists into one string
     converted_words = [' '.join(word) for word in split_text]
     converted_text = ' / '.join(converted_words)
 
     return converted_text
 
-# create a function for converting morse code to text
-    # invalid codes are converted to a #
-    # divide string into lists of words, then again into lists of characters
-    # grammar: set first letter of sentance to a capitol letter, and double space after full stop
-    # must represent a space, no matter how many in a row
-        #  check '' and ' ' after split
-def convert_to_text(coded_text):
+
+def convert_to_text(coded_text: str):
+    """
+    Convert morse code to formatted text with spaced sentences and capital letters.
+    :param coded_text: (str): The morse code to convert to text.
+    :return: (str): The converted text.
+    """
+    # split coded into nested lists
     split_code = [[char_code for char_code in word.split()] for word in coded_text.split('/')]
 
+    # convert codes to characters
     for coded_word in split_code:
         for index, code in enumerate(coded_word):
             if code not in code_library.values():
@@ -41,8 +45,10 @@ def convert_to_text(coded_text):
                     if code == value:
                         coded_word[index] = key
 
+    # join characters into words
     converted_code_words = [''.join(coded_word) for coded_word in split_code]
 
+    # Text formatting
     next_word_capital = True
     for index, word in enumerate(converted_code_words):
         if next_word_capital:
@@ -54,18 +60,17 @@ def convert_to_text(coded_text):
                 converted_code_words[index] += ' '
                 next_word_capital = True
 
+    # join words into one string
     converted_code = ' '.join(converted_code_words)
 
     return converted_code
 
 
-#  create converter function that runs the converter until user is finished
-    #  ask what type of conversion to execute
-    #  call the correct function based on input and return the printed result
-    # ask user if wants to continue. use recursion to loop back to start if continuing
-
-
 def converter():
+    """
+    Ask for user input and run relevant code.
+    :return: None
+    """
     command = input("Enter 't' to convert to text, or 'c' to convert to code: ").lower()
     if command == 't':
         text = convert_to_text(input("Enter the morse code to convert:\n"))
@@ -84,6 +89,10 @@ def converter():
 
 
 def main():
+    """
+    Main function.
+    :return: None
+    """
     print(logo)
     print('Welcome to the Morse Code Converter')
     converter()

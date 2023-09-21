@@ -1,4 +1,6 @@
 # Library containing all characters with equivalent codes
+# Copied from https://gist.github.com/mohayonao/094c71af14fe4791c5dd. Thanks!
+
 code_library = {
     "0": "-----",
     "1": ".----",
